@@ -1,14 +1,14 @@
 import { legacy_createStore as createStore} from 'redux'
 import { createSlice, configureStore } from '@reduxjs/toolkit';
 
-const initialState = {};
+const initialState = {user: {}};
 
 const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
         signInWithGoogle(state, action ) {
-            console.log(action.payload)
+           return {...initialState, user: action.payload }
         },
         signOut(state, action) {
             console.log('sign out')

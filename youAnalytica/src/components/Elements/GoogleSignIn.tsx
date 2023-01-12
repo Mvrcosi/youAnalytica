@@ -2,19 +2,23 @@ import React from 'react'
 import {auth, provider} from '../../firebase-config'
 import {signInWithPopup} from 'firebase/auth'
 import {useDispatch} from 'react-redux'
-
-// actions are the reducers that have logic
-// to do something inside our users
-// like sign in or sign out
+import { useNavigate } from 'react-router-dom'
 import { userActions } from '../../store'
 
 const GoogleSignIn = (props:any) => {
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const signInWithGoogle = async () => {
     const result = await signInWithPopup(auth, provider)
-    dispatch(userActions.signInWithGoogle(result.user))
+    .then((res) => {
+      dispatch(userActions.signInWithGoogle(res))
+      navigate('/dashboard')
+    })
+    .catch((err) => {
+      console.log(err.message)
+    })
   }
 
   return (
@@ -23,4 +27,4 @@ const GoogleSignIn = (props:any) => {
   
 }
 
-export default GoogleSignIn
+export default GoogleSignIn;
