@@ -1,4 +1,3 @@
-import { legacy_createStore as createStore} from 'redux'
 import { createSlice, configureStore } from '@reduxjs/toolkit';
 
 
@@ -18,10 +17,6 @@ const userSlice = createSlice({
 }); 
 
 
-const store = configureStore({
-    reducer: userSlice.reducer
-});
-
-
-export const userActions = userSlice.actions;
-export default store;
+export const {signInWithGoogle, signOut} = userSlice.actions;
+export const selectUser = (state) => state.user.user;
+export default userSlice.reducer;
