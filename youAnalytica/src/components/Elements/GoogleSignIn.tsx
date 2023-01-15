@@ -15,7 +15,7 @@ const GoogleSignIn = (props:any) => {
 
       const result = await signInWithPopup(auth, provider)
       .then((res) => {
-        dispatch(userActions.signInWithGoogle(res))
+        dispatch(userActions.signInWithGoogle(res.user))
         navigate('/dashboard')
       })
       .catch((err) => {

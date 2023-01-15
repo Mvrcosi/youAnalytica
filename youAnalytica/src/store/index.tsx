@@ -1,5 +1,6 @@
 import { legacy_createStore as createStore} from 'redux'
-import { createSlice, configureStore } from '@reduxjs/toolkit';
+import { createSlice, configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import logger from 'redux-logger';
 
 
 const userSlice = createSlice({
@@ -11,15 +12,19 @@ const userSlice = createSlice({
         signInWithGoogle(state, action ) {
            state.user = action.payload
         },
-        signOut(state, action) {
+        signUserOut(state) {
             state.user = null
+        },
+        signIn(state, action) {
+            state.user = action.payload
         }
     }
 }); 
 
 
 const store = configureStore({
-    reducer: userSlice.reducer
+    reducer: userSlice.reducer, 
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });
 
 

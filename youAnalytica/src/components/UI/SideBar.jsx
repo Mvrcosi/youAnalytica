@@ -1,35 +1,56 @@
 import { forwardRef } from "react";
-import { HomeIcon, CreditCardIcon, UserIcon } from "@heroicons/react/24/solid";
+import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/solid";
 import {useSelector} from 'react-redux';
-
+import {getAuth, signOut} from 'firebase/auth';
+import {useNavigate} from 'react-router-dom'
 
 const SideBar = forwardRef(({ showNav }, ref) => {
   const user = useSelector(state => state.user)
+  const navigate = useNavigate()
+
+  const handleSignUserOut = () => {
+
+    const auth = getAuth();
+    signOut(auth).then(() => {
+      console.log('successfully signed out')
+    }).catch((err) => {
+      console.log(err.message)
+    })
+
+    navigate('/')
+    
+  }
 
   return (
     <div ref={ref} className="fixed w-56 h-full bg-white shadow-sm">
       <div className="flex justify-center mt-6 mb-14">
-          <img
+
+        {user ?
+          (<img
             className="w-32 h-auto"
-            src={user.user.photoURL}
+            src={user.photoURL}
+            alt="user avatar"
+          />) : (
+            <img
+            className="w-32 h-auto"
+            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
             alt="user avatar"
           />
+          )
+          }
       </div>
 
       <div className="flex flex-col">
-        <a href="/">
-          <div
+          <div onClick={handleSignUserOut}
             className={`pl-6 py-3 mx-5 rounded text-center cursor-pointer mb-3 flex items-center transition-colors`}
           >
             <div className="mr-2">
-              <HomeIcon className="h-5 w-5" />
+              <ArrowLeftOnRectangleIcon className="h-5 w-5" />
             </div>
             <div>
-              <p>Home</p>
+              <p>Sign Out</p>
             </div>
           </div>
-        </a>
-      
       </div>
     </div>
   );

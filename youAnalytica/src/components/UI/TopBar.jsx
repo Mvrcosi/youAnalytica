@@ -109,15 +109,24 @@ export default function TopBar({ showNav, setShowNav }) {
           <div>
             <Menu.Button className="inline-flex w-full justify-center items-center">
               <picture>
-                <img
-                  src={user.user.photoURL}
+
+                {user ? (   <img
+                  src={user.photoURL}
                   className="rounded-full h-8 md:mr-4 border-2 border-white shadow-sm"
                   alt="profile picture"
-                />
+                />):  (   <img
+                  src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+                  className="rounded-full h-8 md:mr-4 border-2 border-white shadow-sm"
+                  alt="profile picture"
+                />)}
+             
               </picture>
-              <span className="hidden md:block font-medium text-gray-700">
-                {user.user.displayName}
-              </span>
+              {user ? (     <span className="hidden md:block font-medium text-gray-700">
+                {user.displayName}
+              </span>) : (<span className="hidden md:block font-medium text-gray-700">
+                null
+              </span>)}
+         
               <ChevronDownIcon className="ml-2 h-4 w-4 text-gray-700" />
             </Menu.Button>
           </div>

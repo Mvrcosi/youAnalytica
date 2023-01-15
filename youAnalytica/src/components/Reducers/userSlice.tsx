@@ -10,13 +10,15 @@ const userSlice = createSlice({
         signInWithGoogle(state, action ) {
            state.user = action.payload
         },
-        signOut(state, action) {
+        signUserOut(state) {
             state.user = null
+        },
+        signIn(state, action) {
+            state.user = action.payload
         }
     }
 }); 
 
 
-export const {signInWithGoogle, signOut} = userSlice.actions;
-export const selectUser = (state) => state.user.user;
+export const {signInWithGoogle, signUserOut, signIn} = userSlice.actions;
 export default userSlice.reducer;
