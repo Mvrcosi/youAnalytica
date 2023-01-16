@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom"
 import {useEffect} from 'react'
 import Home from './components/UI/Home.jsx';
 import Dashboard from './components/UI/Dashboard.jsx';
@@ -9,19 +9,20 @@ import {getAuth, signOut} from 'firebase/auth';
 
 
 
-function App() {
+const App = () => {
 
   const dispatch = useDispatch();
+  const auth = getAuth();
 
   useEffect(() => {
 
     const unsubscribe = auth.onAuthStateChanged((userAuth) => {
       if(userAuth) {
         dispatch(signIn(userAuth))
+        
       }
       else {
         dispatch(signUserOut())
-        const auth = getAuth();
         signOut(auth).then(() => {
           console.log('successfully signed out')
         }).catch((err) => {
@@ -31,7 +32,7 @@ function App() {
     })
     return unsubscribe;
 
-  }, [])
+  }, [dispatch])
 
 
   return (

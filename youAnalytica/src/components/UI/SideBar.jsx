@@ -12,7 +12,7 @@ const SideBar = forwardRef(({ showNav }, ref) => {
 
     const auth = getAuth();
     signOut(auth).then(() => {
-      console.log('successfully signed out')
+      // success message or trigger loading screen
     }).catch((err) => {
       console.log(err.message)
     })

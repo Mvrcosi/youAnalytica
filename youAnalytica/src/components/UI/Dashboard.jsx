@@ -1,6 +1,7 @@
 import React from 'react'
 import Layout from './Layout'
 import Table from './Table'
+import Modal from './Modal'
 const Dashboard = () => {
   return (
     <Layout>
@@ -11,6 +12,7 @@ const Dashboard = () => {
               <div className="rounded bg-white h-40 shadow-sm"></div>
             </div>
             <div className="grid col-1 bg-white h-full shadow-sm mb-10">
+              <Modal />
             <Table />
             </div>
     </Layout>

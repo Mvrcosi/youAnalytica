@@ -1,9 +1,10 @@
 import React from 'react'
-import {auth, provider} from '../../firebase-config'
+import {auth, provider, database} from '../../firebase-config'
 import {signInWithPopup} from 'firebase/auth'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { userActions } from '../../store'
+import {collection, doc, getDoc, setDoc} from 'firebase/firestore'
 
 const GoogleSignIn = (props:any) => {
 
@@ -12,16 +13,20 @@ const GoogleSignIn = (props:any) => {
 
 
   const signInWithGoogle = async () => {
+      await signInWithPopup(auth, provider)
+      .then(async (res) => {
+        const docRef = doc(database, "users", res.user.uid);
+        const docSnap = await getDoc(docRef);
 
-      const result = await signInWithPopup(auth, provider)
-      .then((res) => {
+        if(!docSnap.exists()) {
+          setDoc(doc(database, "users", res.user.uid), {
+            subscriptions: {}
+          })
+        }
         dispatch(userActions.signInWithGoogle(res.user))
         navigate('/dashboard')
-      })
-      .catch((err) => {
-        console.log(err.message) 
-      })
-
+      }) 
+      
   }
 
   return (
