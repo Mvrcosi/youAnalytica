@@ -12,6 +12,8 @@ import {useSelector} from 'react-redux';
 
 
 export default function TopBar({ showNav, setShowNav }) {
+
+  
   const user = useSelector(state => state.user)
   return (
     <div

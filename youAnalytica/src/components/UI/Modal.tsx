@@ -1,16 +1,13 @@
 import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
-import {PlusIcon } from '@heroicons/react/24/solid'
 import { database } from '../../firebase-config';
-import { useSelector } from 'react-redux';
 import { doc, updateDoc, arrayUnion, arrayRemove, } from "firebase/firestore";
 import { getAuth } from 'firebase/auth';
 
 const Modal = () => {
     const [open, setOpen] = useState(false)
     const cancelButtonRef = useRef(null)
-
     const [subName, setSubName] = useState('');
     const [subPrice, setSubPrice] = useState('');
     const [subStartDate, setSubStartDate] = useState('');
@@ -54,14 +51,6 @@ const Modal = () => {
 
     return (
         <>
-        <div className='p-1 flex justify-between items-center'>
-          <div className='text-3xl font-black'>Subscriptions</div>
-          <button onClick={() => setOpen(true)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 border border-blue-700 rounded">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                <path fill-rule="evenodd" d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z" clip-rule="evenodd" />
-            </svg>
-          </button>
-        </div>
 
         <Transition.Root show={open} as={Fragment}>
           <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
