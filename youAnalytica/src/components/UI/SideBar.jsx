@@ -3,21 +3,24 @@ import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/solid";
 import {useSelector} from 'react-redux';
 import {getAuth, signOut} from 'firebase/auth';
 import {useNavigate} from 'react-router-dom'
+import React from "react";
+import { useDispatch } from "react-redux";
+import {signUserOut} from '../Reducers/userSlice'
 
 const SideBar = forwardRef(({ showNav }, ref) => {
   const user = useSelector(state => state.user)
   const navigate = useNavigate()
+  const auth = getAuth();
+  const dispatch = useDispatch();
 
   const handleSignUserOut = () => {
-
-    const auth = getAuth();
     signOut(auth).then(() => {
-      // success message or trigger loading screen
+      navigate('/')
+      dispatch(signUserOut())
     }).catch((err) => {
       console.log(err.message)
     })
 
-    navigate('/')
     
   }
 
@@ -58,4 +61,4 @@ const SideBar = forwardRef(({ showNav }, ref) => {
 
 SideBar.displayName = "SideBar";
 
-export default SideBar;
+export default React.memo(SideBar);

@@ -1,40 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom"
-import {useEffect} from 'react'
 import Home from './components/UI/Home.jsx';
 import Dashboard from './components/UI/Dashboard.jsx';
-import { auth } from "./firebase-config.js";
-import { useDispatch } from "react-redux";
-import { signUserOut, signIn } from "./components/Reducers/userSlice.js";
-import {getAuth, signOut} from 'firebase/auth';
-
-
 
 const App = () => {
-
-  const dispatch = useDispatch();
-  const auth = getAuth();
-
-  useEffect(() => {
-
-    const unsubscribe = auth.onAuthStateChanged((userAuth) => {
-      if(userAuth) {
-        dispatch(signIn(userAuth))
-        
-      }
-      else {
-        dispatch(signUserOut())
-        signOut(auth).then(() => {
-          console.log('successfully signed out')
-        }).catch((err) => {
-          console.log(err.message)
-        })
-      }
-    })
-    return unsubscribe;
-
-  }, [dispatch])
-
-
   return (
     <Router>
       <Routes>
