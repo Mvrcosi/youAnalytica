@@ -2,20 +2,20 @@ import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { database } from '../../firebase-config';
-import { doc, updateDoc, arrayUnion, arrayRemove, } from "firebase/firestore";
+import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { getAuth } from 'firebase/auth';
 
 const Modal = () => {
     const [open, setOpen] = useState(false)
-    const cancelButtonRef = useRef(null)
     const [subName, setSubName] = useState('');
     const [subPrice, setSubPrice] = useState('');
     const [subStartDate, setSubStartDate] = useState('');
     const [subEndDate, setSubEndDate] = useState('');
     const [subInterval, setSubInterval] = useState('');
-
+    const cancelButtonRef = useRef(null)
     const auth = getAuth()
 
+    const validationErrors = [];
 
     const handleAddSub = async () => {
 
@@ -49,8 +49,58 @@ const Modal = () => {
         setSubInterval(e.target.value)
     }
 
+    const handleSubNameOnBlur = (e:any) => {
+      if(typeof e.target.value === 'string' && e.target.value !== '') {
+        console.log('no error dispatch')
+      }
+      else {
+        validationErrors.push({subName: "error in subName"})
+      }
+    }
+
+    const handleSubPriceOnBlur = (e:Number) => {
+
+     
+    }
+    
+    const handleSubStartDateOnBlur = (e:any) => {
+      if(typeof e.target.value === 'string' && e.target.value !== '') {
+        console.log('no error dispatch')
+      }
+      else {
+        validationErrors.push({subStartDate: "error in subStartDate"})
+      }
+    }
+
+    const handleSubEndDateOnBlur = (e:any) => {
+      if(typeof e.target.value === 'string' && e.target.value !== '') {
+        console.log('no error dispatch')
+      }
+      else {
+        validationErrors.push({subEndDate: "error in subEndDate"})
+      }
+    }
+
+    const handleSubIntervalOnBlur = (e:any) => {;
+      if(typeof e.target.value === 'string' && e.target.value !== '') {
+        console.log('no error dispatch')
+      }
+      else {
+        validationErrors.push({subInterval: "error in subInterval"})
+      }
+    }
+
     return (
         <>
+
+<div className='p-1 flex justify-between items-center'>
+          <div className='text-3xl font-black'>Subscriptions</div>
+          <button onClick={() => setOpen(true)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 border border-blue-700 rounded">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                <path fill-rule="evenodd" d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
 
         <Transition.Root show={open} as={Fragment}>
           <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
@@ -93,28 +143,28 @@ const Modal = () => {
                                     {/* SubName */}
                                     <div className='w-full '>
                                         <label>Subscription Name</label>
-                                        <input value={subName} onChange={handleSubNameChange} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Netflix" />
+                                        <input value={subName} onChange={handleSubNameChange} onBlur={handleSubNameOnBlur} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Netflix" />
                                     </div>
                                     {/* Sub Price */}
                                     <div className='w-full '>
                                         <label>Price</label>
-                                        <input value={subPrice} onChange={handleSubPriceChange} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="9.99" />
+                                        <input value={subPrice} onChange={handleSubPriceChange} onBlur={handleSubPriceOnBlur} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="9.99" />
                                     </div>
                                     {/* Sub Start Date */}
                                     <div className='w-full '>
                                         <label>Start Date</label>
-                                        <input value={subStartDate} onChange={handleSubStartDateChange} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Jan 01, 2023" />
+                                        <input value={subStartDate} onChange={handleSubStartDateChange} onBlur={handleSubStartDateOnBlur} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Jan 01, 2023" />
                                     </div>
                                     {/* Sub End Date */}
                                     <div className='w-full '>
                                         <label>End Date</label>
-                                        <input value={subEndDate} onChange={handleSubEndDateChange} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Jan 01, 2024" />
+                                        <input value={subEndDate} onChange={handleSubEndDateChange} onBlur={handleSubEndDateOnBlur} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Jan 01, 2024" />
                                     </div>
                                   
                                       {/* Interval type */}
                                       <div className='w-full '>
                                         <label>Interval</label>
-                                        <input value={subInterval} onChange={handleSubIntervalChange} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Monthly" />
+                                        <input value={subInterval} onChange={handleSubIntervalChange} onBlur={handleSubIntervalOnBlur} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Monthly" />
                                     </div>
                                 </div>
                             </form>

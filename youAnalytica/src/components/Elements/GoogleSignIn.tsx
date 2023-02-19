@@ -9,7 +9,9 @@ const GoogleSignIn = (props:any) => {
   }
 
   return (
-    <button onClick={signInWithGoogle} className='outline outline-white	bg-none p-3 border-none rounded-lg hover:bg-sky-700 w-40'>{props.text}</button>
+    <button onClick={signInWithGoogle} className='outline outline-white	bg-none p-3 border-none rounded-lg hover:bg-sky-700 w-40'>
+      <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRu1PJmT_THldF0n5APcmt9p10utgu6KSw4cH2fQ5Xhpw&s' className='w-5 h-5'></img>
+    </button>
   )
   
 }

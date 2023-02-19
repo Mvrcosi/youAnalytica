@@ -10,6 +10,7 @@ const Table = () => {
   const [data, setData] = useState('')
   const [isLoading, setIsLoading] = useState(false);
 
+  console.log('table')
 
 
 
